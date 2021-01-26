@@ -1,7 +1,8 @@
 'use strict'
 
 
-const Project = use('App/Models/Project')
+const Project = use('App/Models/Project');
+const AuthorizationService = use('App/Services/AuthorizationService');
 
 class ProjectController {
 	// returns all projects that is associated with users
@@ -27,6 +28,16 @@ class ProjectController {
 
 
 
+	}
+	async destroy({auth, request, params}){
+		const user = await auth.getUser();
+		const {id} = params;
+		const project = await Project.find(id);
+
+		AuthorizationService.verifyPermission(project, user);
+
+		await project.delete();
+		return project;
 	}
 }
 
