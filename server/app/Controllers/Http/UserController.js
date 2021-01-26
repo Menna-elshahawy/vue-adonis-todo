@@ -6,13 +6,14 @@ class UserController {
 	async register({request}){
 
 		const {email, password} = request.all();
-		// console.log(email, password);
+		console.log(email, password);
 		user = await User.create({
 			email, 
 			password, 
 			username: email
 		});
-		return this.login(...arguments);
+		// return this.login(...arguments);
+		return user;
 	}
 // auth for authentication
 	async login({request, auth}){
